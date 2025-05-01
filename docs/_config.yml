@@ -1,0 +1,59 @@
+plugins:
+  - jekyll-remote-theme
+
+remote_theme: just-the-docs/just-the-docs
+
+# The following settings are jtd specific
+# https://just-the-docs.com/
+
+# --- Dark mode ---
+color_scheme: dark
+
+# --- Logo and favicon ---
+logo: "/assets/logo.png"
+favicon_ico: "/assets/logo.ico"
+
+# --- Nav side bar ---
+nav_enabled: true
+
+# --- Callouts ---
+callouts:
+  info:
+    title: Note
+    color: blue
+
+  tip:
+    title: Tip
+    color: green
+
+  important:
+    title: Important
+    color: purple
+
+  warning:
+    title: Warning
+    color: yellow
+
+  caution:
+    title: Caution
+    color: red
+
+# --- Auxiliary links ---
+aux_links:
+  "NanoEncoder on GitHub":
+    - "https://github.com/JoshPaulie/VSNotify"
+
+# --- Footer ---
+footer_content: "MIT License"
+
+# Footer last edited timestamp
+last_edit_timestamp: true
+last_edit_time_format: "%b %e %Y at %I:%M %p"
+
+# GitHub footer
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub."
+gh_edit_repository: "https://github.com/JoshPaulie/VSNotify"
+gh_edit_branch: "main"
+gh_edit_source: docs
+gh_edit_view_mode: "tree"
