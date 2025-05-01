@@ -4,6 +4,9 @@ All notable changes to the "vsnotify" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [0.0.3]
+- Move majority of README.md to docs site (stop repackaging for minor changes)
+
 ## [0.0.2]
 - Logo and readme images
 
