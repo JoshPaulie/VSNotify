@@ -3,7 +3,7 @@
   "displayName": "VSNotify",
   "publisher": "joshpaulie",
   "description": "Send VSCode 'notifications' via commands",
-  "icon": "assets/vsnotify-extension-logo.png",
+  "icon": "docs/assets/vsnotify-extension-logo.png",
   "version": "0.0.2",
   "engines": {
     "vscode": "^1.99.0"
