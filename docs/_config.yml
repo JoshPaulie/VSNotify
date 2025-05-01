@@ -10,7 +10,7 @@ remote_theme: just-the-docs/just-the-docs
 color_scheme: dark
 
 # --- Logo and favicon ---
-logo: "/assets/logo.png"
+logo: "/assets/vsnotify-logo-plain.png"
 favicon_ico: "/assets/logo.ico"
 
 # --- Nav side bar ---
