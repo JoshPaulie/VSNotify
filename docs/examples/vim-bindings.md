@@ -1,6 +1,7 @@
 ---
 title: Vim Bindings
 layout: default
+parent: Examples
 ---
 ## Encouraging better vim motions
 The following example is why I made this extension, to force myself to use better vim motions

@@ -1,6 +1,7 @@
 ---
 title: VSCode Tasks
 layout: default
+parent: Examples
 ---
 ## Notification after task completion
 ```jsonc
