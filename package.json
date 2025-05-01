@@ -1,10 +1,13 @@
 {
   "name": "vsnotify",
   "displayName": "VSNotify",
-  "description": "Send VSCode notifications via commands",
+  "description": "Send VSCode 'notifications' via commands",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.99.0"
+  },
+  "repository": {
+    "url": "https://github.com/JoshPaulie/VSNotify"
   },
   "categories": [
     "Other"
