@@ -1,6 +1,8 @@
 # vsnotify
 Simple extension which allows you to send VS Code "notifications," either by message or status bar entry.
 
+<img src="https://github.com/JoshPaulie/VSNotify/blob/main/assets/vsnotify-screenshot.png?raw=true" width="800">
+
 ## Usage
 
 ### VSCodeVim bindings
