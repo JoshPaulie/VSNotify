@@ -1,5 +1,5 @@
 ---
-title: Task Examples
+title: VSCode Tasks
 layout: default
 ---
 ## Notification after task completion

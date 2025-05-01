@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Commands
+nav_order: 2
 ---
 # Commands
 ## `vsnotify.status`

@@ -1,5 +1,5 @@
 ---
-title: VSCodeVim Bindings Examples
+title: Vim Bindings
 layout: default
 ---
 ## Encouraging better vim motions
