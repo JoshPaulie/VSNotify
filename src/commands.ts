@@ -69,3 +69,61 @@ export function notifyCommand(config: vscode.WorkspaceConfiguration) {
     }
   };
 }
+
+export interface RunTaskArgs {
+  taskName: string;
+  useStatus?: boolean; // if true, use status bar. else, pop up
+}
+
+/**
+ * Handler for the `vsnotify.runTask` command.
+ */
+export function runTaskCommand(config: vscode.WorkspaceConfiguration) {
+  return async (userArgs: RunTaskArgs) => {
+    const { taskName, useStatus = false } = userArgs;
+
+    // Fetch all tasks
+    const tasks = await vscode.tasks.fetchTasks();
+    // Find by name
+    const task = tasks.find((t) => t.name === taskName);
+    if (!task) {
+      // No matching task
+      return vscode.window.showErrorMessage(`Task '${taskName}' not found`);
+    }
+
+    // Execute the task
+    const execution = await vscode.tasks.executeTask(task);
+
+    // Listen for process end
+    const disposable = vscode.tasks.onDidEndTaskProcess((event) => {
+      if (event.execution === execution) {
+        disposable.dispose();
+
+        const exitCode = event.exitCode ?? -1;
+        // Prep messages
+        const successMsg = config
+          .get<string>("runTask.successMessage")!
+          .replace("{0}", taskName);
+        const errorMsg = config
+          .get<string>("runTask.errorMessage")!
+          .replace("{0}", taskName)
+          .replace("{1}", exitCode.toString());
+
+        // Second notification
+        if (exitCode === 0) {
+          if (useStatus) {
+            statusCommand(config)({ message: successMsg, color: "green" });
+          } else {
+            notifyCommand(config)({ message: successMsg, type: "info" });
+          }
+        } else {
+          if (useStatus) {
+            statusCommand(config)({ message: errorMsg, color: "red" });
+          } else {
+            notifyCommand(config)({ message: errorMsg, type: "error" });
+          }
+        }
+      }
+    });
+  };
+}

@@ -19,6 +19,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "vsnotify.runTask",
+        "title": "VSNotify: Run Task with Notification"
+      },
+      {
         "command": "vsnotify.status",
         "title": "Send notification via status bar"
       },
@@ -30,6 +34,16 @@
     "configuration": {
       "title": "vsnotify",
       "properties": {
+        "vsnotify.runTask.successMessage": {
+          "type": "string",
+          "default": "Task '{0}' succeeded",
+          "description": "Message to show when the task completes successfully. '{0}' will be replaced with the task name."
+        },
+        "vsnotify.runTask.errorMessage": {
+          "type": "string",
+          "default": "Task '{0}' failed with exit code {1}",
+          "description": "Message to show when the task fails. '{0}' is the task name, '{1}' is the exit code."
+        },
         "vsnotify.status.message": {
           "type": "string",
           "default": "Notification",
