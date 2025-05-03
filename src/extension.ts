@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 
 export function activate(context: vscode.ExtensionContext) {
+  const config = vscode.workspace.getConfiguration("vsnotify");
+
   interface StatusArgs {
     message?: string;
     color?: string;
@@ -9,24 +11,40 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   const statusDisposable = vscode.commands.registerCommand("vsnotify.status", (userArgs: StatusArgs) => {
-    // Merge user input with defaults
-    const args = { message: "Notification", color: "green", timeout: 5000, align: "left", ...userArgs };
+    // pull defaults from settings, then overlay userArgs
+    const defaults = {
+      message: config.get<string>("status.message"),
+      color: config.get<string>("status.color"),
+      timeout: config.get<number>("status.timeout"),
+      align: config.get<string>("status.align"),
+    };
+    const args = { ...defaults, ...userArgs };
 
-    // Create entry
-    const statusBarEntry = vscode.window.createStatusBarItem(args.align === "left" ? vscode.StatusBarAlignment.Left : vscode.StatusBarAlignment.Right, 0);
+    const alignment = args.align === "right" ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
+    const statusBarItem = vscode.window.createStatusBarItem(alignment, 0);
 
-    // Modify and show status bar item
-    const safeColor = ["red", "blue", "yellow", "orange", "green", "purple"].includes(args.color.toLowerCase()) ? args.color.toLowerCase() : "green";
-    statusBarEntry.color = new vscode.ThemeColor(`charts.${safeColor}`);
-    statusBarEntry.text = args.message;
-    statusBarEntry.show();
+    // Define a default color
+    const defaultColor = "green";
+
+    // Use optional chaining and nullish coalescing to safely access and default the color
+    const color = args.color?.toLowerCase() ?? defaultColor;
+
+    // Validate the color against the allowed list
+    const allowedColors = ["red", "blue", "yellow", "orange", "green", "purple"];
+    const safeColor = allowedColors.includes(color) ? color : defaultColor;
+
+    // Apply the color to the status bar item
+    statusBarItem.color = new vscode.ThemeColor(`charts.${safeColor}`);
+
+    // ←                            ← MISSING LINE: set the text
+    statusBarItem.text = args.message ?? defaults.message!;
+
+    // Show it
+    statusBarItem.show();
 
     // Cleanup after duration
-    setTimeout(() => {
-      statusBarEntry.dispose();
-    }, args.timeout);
+    setTimeout(() => statusBarItem.dispose(), args.timeout);
   });
-
   context.subscriptions.push(statusDisposable);
 
   interface NotifyArgs {
@@ -35,27 +53,25 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   const notifyDisposable = vscode.commands.registerCommand("vsnotify.notify", (userArgs: NotifyArgs) => {
-    // Merge user input with defaults
-    const args = { message: "notification", type: "information", ...userArgs };
+    const defaults = {
+      message: config.get<string>("notify.message"),
+      type: config.get<string>("notify.type"),
+    };
+    const args = { ...defaults, ...userArgs };
 
-    // Match type and show related message
-    switch (args.type?.toLowerCase()) {
+    switch (args.type!.toLowerCase()) {
       case "error":
-        vscode.window.showErrorMessage(args.message);
+        vscode.window.showErrorMessage(args.message!);
         break;
-
       case "warning":
-        vscode.window.showWarningMessage(args.message);
+        vscode.window.showWarningMessage(args.message!);
         break;
-
       default:
-        vscode.window.showInformationMessage(args.message);
+        vscode.window.showInformationMessage(args.message!);
         break;
     }
   });
-
   context.subscriptions.push(notifyDisposable);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}

@@ -26,7 +26,59 @@
         "command": "vsnotify.notify",
         "title": "Send notification via window message"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "vsnotify",
+      "properties": {
+        "vsnotify.status.message": {
+          "type": "string",
+          "default": "Notification",
+          "description": "Default status bar message"
+        },
+        "vsnotify.status.color": {
+          "type": "string",
+          "default": "green",
+          "enum": [
+            "red",
+            "blue",
+            "yellow",
+            "orange",
+            "green",
+            "purple"
+          ],
+          "description": "Default status bar color"
+        },
+        "vsnotify.status.timeout": {
+          "type": "number",
+          "default": 5000,
+          "description": "How long (ms) before status message disappears"
+        },
+        "vsnotify.status.align": {
+          "type": "string",
+          "default": "left",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "description": "Which side of the status bar to use"
+        },
+        "vsnotify.notify.message": {
+          "type": "string",
+          "default": "notification",
+          "description": "Default popup notification message"
+        },
+        "vsnotify.notify.type": {
+          "type": "string",
+          "default": "information",
+          "enum": [
+            "information",
+            "warning",
+            "error"
+          ],
+          "description": "Default popup notification type"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
