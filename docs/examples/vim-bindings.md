@@ -12,7 +12,6 @@ The following example is why I made this extension, to force myself to use bette
   "vim.normalModeKeyBindings": [
     {
       "before": ["h"],
-      "after": [""],
       "commands": [
         {
           "command": "vsnotify.status",
@@ -23,7 +22,6 @@ The following example is why I made this extension, to force myself to use bette
     },
     {
       "before": ["l"],
-      "after": [""],
       "commands": [
         {
           "command": "vsnotify.status",
