@@ -4,6 +4,9 @@ All notable changes to the "vsnotify" extension will be documented in this file.
 
 ## [Unreleased]
 
+## [0.2.0]
+- Add debounce for existing status bar entries
+
 ## [0.1.0]
 - Add `vsnotify.runTask`
 - Improve documentation
