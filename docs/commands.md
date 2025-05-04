@@ -2,8 +2,13 @@
 layout: default
 title: Commands
 nav_order: 2
+hac_toc: true
 ---
 # Commands
+
+- TOC
+{:toc}
+
 ## Global Settings
 
 Default values can be set in `settings.json`, like the following.
