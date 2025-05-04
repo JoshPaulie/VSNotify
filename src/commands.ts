@@ -7,6 +7,12 @@ export interface StatusArgs {
   align?: string;
 }
 
+// Registry mapping a serialized key → { item, timeoutHandle }
+const activeStatusItems = new Map<
+  string,
+  { item: vscode.StatusBarItem; timeoutHandle: ReturnType<typeof setTimeout> }
+>();
+
 /**
  * Handler for the `vsnotify.status` command.
  */
@@ -19,6 +25,23 @@ export function statusCommand(config: vscode.WorkspaceConfiguration) {
       align: config.get<string>("status.align"),
     };
     const args = { ...defaults, ...userArgs };
+
+    const key = JSON.stringify({
+      message: args.message,
+      color: args.color,
+      align: args.align,
+    }); // JSON.stringify stable for fixed props
+
+    const existing = activeStatusItems.get(key);
+    if (existing) {
+      clearTimeout(existing.timeoutHandle); // cancel prior dispose
+      existing.item.text = args.message!; // update text
+      existing.timeoutHandle = setTimeout(() => {
+        existing.item.dispose(); // remove item
+        activeStatusItems.delete(key);
+      }, args.timeout);
+      return;
+    }
 
     const alignment =
       args.align === "right"
@@ -33,10 +56,15 @@ export function statusCommand(config: vscode.WorkspaceConfiguration) {
     const safeColor = allowed.includes(color) ? color : defaultColor;
 
     item.color = new vscode.ThemeColor(`charts.${safeColor}`);
-    item.text = args.message ?? defaults.message!;
+    item.text = args.message!;
     item.show();
 
-    setTimeout(() => item.dispose(), args.timeout);
+    const timeoutHandle = setTimeout(() => {
+      item.dispose(); // remove item
+      activeStatusItems.delete(key);
+    }, args.timeout);
+
+    activeStatusItems.set(key, { item, timeoutHandle });
   };
 }
 
