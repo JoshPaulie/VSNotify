@@ -4,7 +4,7 @@ layout: default
 parent: Examples
 ---
 ## Encouraging better vim motions
-The following example is why I made this extension, to force myself to use better vim motions
+The following example is why I made this extension, to force myself to use better vim motions. It's exactly what I use in my config.
 
 ```jsonc
 // settings.json
@@ -16,11 +16,7 @@ The following example is why I made this extension, to force myself to use bette
       "commands": [
         {
           "command": "vsnotify.status",
-          "args": {
-            "message": "Use a better motion! (b, ge, F)",
-            "color": "red",
-            "timeout": 1000, // 1 second timeout
-          }
+          "args": { "message": "Use a better motion! (b, ge, F)", "color": "red" }
         }
       ],
       "silent": true
@@ -31,11 +27,7 @@ The following example is why I made this extension, to force myself to use bette
       "commands": [
         {
           "command": "vsnotify.status",
-          "args": {
-            "message": "Use a better motion! (w, e, f)",
-            "color": "red",
-            "align": "right" // Add entry to right side
-          }
+          "args": { "message": "Use a better motion! (w, e, f)", "color": "red" }
         }
       ],
       "silent": true
