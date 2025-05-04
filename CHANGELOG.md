@@ -3,6 +3,10 @@
 All notable changes to the "vsnotify" extension will be documented in this file.
 
 ## [Unreleased]
+
+## [0.1.0]
+- Add `vsnotify.runTask`
+- Improve documentation
 - Move command defaults to proper settings
 
 ## [0.0.3]
