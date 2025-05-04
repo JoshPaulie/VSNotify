@@ -1,5 +1,5 @@
 # VSNotify
-Simple extension which allows you to send VS Code "notifications," either by message or status bar entry.
+Lightweight extension for showing custom notifications via popup or status bar, triggered by keybindings. You can also run tasks with it to receive success or failure feedback.
 
 > Check the [Documentation](https://bexli.dev/VSNotify) for usage and examples for inspiration ⭐️
 
