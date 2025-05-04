@@ -1,5 +1,7 @@
 import * as vscode from "vscode";
 
+// -------------------------------------------------------------------------- //
+
 export interface StatusArgs {
   message?: string;
   color?: string;
@@ -18,12 +20,15 @@ const activeStatusItems = new Map<
  */
 export function statusCommand(config: vscode.WorkspaceConfiguration) {
   return (userArgs: StatusArgs) => {
+    // Get defaults
     const defaults = {
       message: config.get<string>("status.message"),
       color: config.get<string>("status.color"),
       timeout: config.get<number>("status.timeout"),
       align: config.get<string>("status.align"),
     };
+
+    // Merge user args with defaults
     const args = { ...defaults, ...userArgs };
 
     const key = JSON.stringify({
@@ -32,6 +37,8 @@ export function statusCommand(config: vscode.WorkspaceConfiguration) {
       align: args.align,
     }); // JSON.stringify stable for fixed props
 
+    // Check for existing status bar entry with the same text, and if there is one, update its
+    // timeout. This way, we're not spamming many indentalical entries
     const existing = activeStatusItems.get(key);
     if (existing) {
       clearTimeout(existing.timeoutHandle); // cancel prior dispose
@@ -43,30 +50,38 @@ export function statusCommand(config: vscode.WorkspaceConfiguration) {
       return;
     }
 
+    // Determine alignment before creating
     const alignment =
       args.align === "right"
         ? vscode.StatusBarAlignment.Right
         : vscode.StatusBarAlignment.Left;
 
+    // Create the entry (item), but is hidden at this point
     const item = vscode.window.createStatusBarItem(alignment, 0);
 
+    // Determine color
     const defaultColor = "green";
     const color = args.color?.toLowerCase() ?? defaultColor;
     const allowed = ["red", "blue", "yellow", "orange", "green", "purple"];
     const safeColor = allowed.includes(color) ? color : defaultColor;
 
+    // Apply text and text color, show entry
     item.color = new vscode.ThemeColor(`charts.${safeColor}`);
     item.text = args.message!;
     item.show();
 
+    // Cleanup after duration functionality
     const timeoutHandle = setTimeout(() => {
       item.dispose(); // remove item
       activeStatusItems.delete(key);
     }, args.timeout);
 
+    // Add our new entry to mapping
     activeStatusItems.set(key, { item, timeoutHandle });
   };
 }
+
+// -------------------------------------------------------------------------- //
 
 export interface NotifyArgs {
   message?: string;
@@ -78,12 +93,16 @@ export interface NotifyArgs {
  */
 export function notifyCommand(config: vscode.WorkspaceConfiguration) {
   return (userArgs: NotifyArgs) => {
+    // Get defaults from config
     const defaults = {
       message: config.get<string>("notify.message"),
       type: config.get<string>("notify.type"),
     };
+
+    // Merge user args over defaults
     const args = { ...defaults, ...userArgs };
 
+    // Match message type, send it!
     switch (args.type!.toLowerCase()) {
       case "error":
         vscode.window.showErrorMessage(args.message!);
@@ -97,6 +116,8 @@ export function notifyCommand(config: vscode.WorkspaceConfiguration) {
     }
   };
 }
+
+// -------------------------------------------------------------------------- //
 
 export interface RunTaskArgs {
   taskName: string;
