@@ -45,12 +45,14 @@ You can edit the success/error message used by `runTask`, [noted here](../comman
     // Status bar notification
     {
       "before": ["leader", "leader", "t"],
-      "commands": [{ "command": "vsnotify.runTask", "args": { "taskName": "pytest", "useStatus": true } }]
+      "commands": [{ "command": "vsnotify.runTask", "args": { "taskName": "pytest", "useStatus": true } }],
+      "silent": true
     },
     // Pop up notification
     {
       "before": ["leader", "leader", "t"],
-      "commands": [{ "command": "vsnotify.runTask", "args": { "taskName": "pytest", "useStatus": false } }]
+      "commands": [{ "command": "vsnotify.runTask", "args": { "taskName": "pytest", "useStatus": false } }],
+      "silent": true
     },
   ]
 ```
