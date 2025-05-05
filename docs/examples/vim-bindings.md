@@ -33,3 +33,21 @@ The following example is why I made this extension, to force myself to use bette
   ]
 }
 ```
+
+## Colorful saves
+
+Fun example of how you can chain multiple commands to one keybind
+
+```jsonc
+{
+"vim.normalModeKeyBindingsNonRecursive": [
+  {
+    "before": ["leader", "w"],
+    "commands": [
+      { "command": "workbench.action.files.save" },
+      { "command": "vsnotify.status", "args": { "message": "Saved!" } }
+    ],
+    "silent": true
+  }
+}
+```
