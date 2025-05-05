@@ -50,10 +50,7 @@ In your **settings.json**, under the `vim.*KeyBindings` section:
     "before": ["leader", "w"],
     "commands": [
       { "command": "workbench.action.files.save" },
-      {
-        "command": "vsnotify.status",
-        "args": { "message": "Saved!" }
-      }
+      { "command": "vsnotify.status", "args": { "message": "Saved!" } }
     ],
     "silent": true
   },
